@@ -1,49 +1,30 @@
 import "./App.css";
-import { createBrowserRouter, RouterProvider } from "react-router";
-import { useState } from "react";
 
-import { Header } from "./header/header.jsx";
+import { useEffect, useState } from "react";
 
-import Home from "./components/Home/Home";
-import Login from "./components/Login/Login";
-import Signup from "./components/Signup/Signup";
-import Profile from "./components/Profile/Profile";
-import { AuthContext } from "./Context";
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Home sitename="ReactJS template" />,
-  },
-  {
-    path: "/login",
-    element: <Login sitename="ReactJS template" />,
-  },
-  {
-    path: "/signup",
-    element: <Signup sitename="ReactJS template" />,
-  },
-  {
-    path: "/profile",
-    element: <Profile />,
-  },
-  {
-    path: "/your-posts",
-  },
-  {
-    path: "/new-post",
-  },
-]);
+import gameplayImage from "./assets/characters/ap6qmdr.jpg";
 
 function App() {
-  const [token, setToken] = useState(localStorage.getItem("access_token"));
+  useEffect(() => {
+    const canvas = document.querySelector("#canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    img.onload = drawImageActualSize;
+    img.srcset = gameplayImage;
+
+    function drawImageActualSize() {
+      ctx.width = this.naturalWidth;
+      ctx.height = this.naturalHeight;
+
+      ctx.drawImage(this, 0, 0, this.width, this.height);
+    }
+  });
+
   return (
-    <>
-      <AuthContext value={{ token, setToken }}>
-        <Header />
-        <RouterProvider router={router}></RouterProvider>
-      </AuthContext>
-    </>
+    <div className="">
+      <canvas id="canvas" width={2000} height={2000}></canvas>
+    </div>
   );
 }
 
