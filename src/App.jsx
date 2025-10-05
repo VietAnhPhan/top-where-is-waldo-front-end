@@ -6,24 +6,64 @@ import gameplayImage from "./assets/characters/ap6qmdr.jpg";
 
 function App() {
   useEffect(() => {
-    const canvas = document.querySelector("#canvas");
-    const ctx = canvas.getContext("2d");
-    const img = new Image();
+    const img = document.getElementById("gameplay-img");
+    const gameBoard = document.querySelector(".gameboard");
 
-    img.onload = drawImageActualSize;
-    img.srcset = gameplayImage;
+    const targetBox = document.createElement("div");
+    targetBox.classList.add("targeting-box");
 
-    function drawImageActualSize() {
-      ctx.width = this.naturalWidth;
-      ctx.height = this.naturalHeight;
+    const characterChoicesDropdown = document.createElement("ul");
+    characterChoicesDropdown.classList.add("character-choices");
 
-      ctx.drawImage(this, 0, 0, this.width, this.height);
-    }
+    const characterChoices = [
+      "Captain Calamity Carl",
+      "Penelope The Parasol Plume",
+      "Buster The Brute Barnett",
+      "Sailor Sarah Sunbeam",
+      "Jasper The Juggler Jenkins",
+    ];
+
+    characterChoices.forEach((characterChoice) => {
+      const characterChoiceLi = document.createElement("li");
+      characterChoiceLi.textContent = characterChoice;
+      characterChoicesDropdown.appendChild(characterChoiceLi);
+    });
+
+    // function removeElements() {
+    //   if (
+    //     gameBoard.querySelector(".targeting-box") &&
+    //     gameBoard.querySelector(".character-choices")
+    //   ) {
+    //     gameBoard.removeChild(targetBox);
+    //     gameBoard.removeChild(characterChoicesDropdown);
+    //   }
+    // }
+
+    // gameBoard.addEventListener("mouseleave", () => {
+    //   removeElements();
+    // });
+
+    img.addEventListener("click", (e) => {
+      targetBox.style.left = `${e.offsetX - 50}px`;
+      targetBox.style.top = `${e.offsetY - 50}px`;
+
+      characterChoicesDropdown.style.left = `${e.offsetX + 50}px`;
+      characterChoicesDropdown.style.top = `${e.offsetY + 50}px`;
+      if (
+        !gameBoard.querySelector(".targeting-box") &&
+        !gameBoard.querySelector(".character-choices")
+      ) {
+        gameBoard.appendChild(targetBox);
+        gameBoard.appendChild(characterChoicesDropdown);
+      }
+    });
   });
 
   return (
-    <div className="">
-      <canvas id="canvas" width={2000} height={2000}></canvas>
+    <div className="gameBoard flex justify-center">
+      <div className="gameboard">
+        <img id="gameplay-img" src={gameplayImage} alt="" />
+      </div>
     </div>
   );
 }

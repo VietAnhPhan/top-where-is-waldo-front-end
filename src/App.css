@@ -41,3 +41,28 @@
 .read-the-docs {
   color: #888;
 }
+.gameboard {
+  position: relative;
+}
+
+.targeting-box {
+  border: 5px solid red;
+  width: 100px;
+  height: 100px;
+  position: absolute;
+}
+
+.character-choices {
+  position: absolute;
+  background-color: var(--color-white);
+  padding: 1rem;
+}
+
+.character-choices li {
+  padding-block: 0.5rem;
+}
+
+.character-choices li:hover {
+  background-color: var(--color-sky-200);
+  cursor: pointer;
+}
