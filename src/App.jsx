@@ -1,70 +1,19 @@
 import "./App.css";
-
-import { useEffect, useState } from "react";
-
-import gameplayImage from "./assets/characters/ap6qmdr.jpg";
+import { RouterProvider } from "react-router";
+import router from "./routes";
+import { AuthContext } from "./Context";
+import { useState } from "react";
 
 function App() {
-  useEffect(() => {
-    const img = document.getElementById("gameplay-img");
-    const gameBoard = document.querySelector(".gameboard");
-
-    const targetBox = document.createElement("div");
-    targetBox.classList.add("targeting-box");
-
-    const characterChoicesDropdown = document.createElement("ul");
-    characterChoicesDropdown.classList.add("character-choices");
-
-    const characterChoices = [
-      "Captain Calamity Carl",
-      "Penelope The Parasol Plume",
-      "Buster The Brute Barnett",
-      "Sailor Sarah Sunbeam",
-      "Jasper The Juggler Jenkins",
-    ];
-
-    characterChoices.forEach((characterChoice) => {
-      const characterChoiceLi = document.createElement("li");
-      characterChoiceLi.textContent = characterChoice;
-      characterChoicesDropdown.appendChild(characterChoiceLi);
-    });
-
-    // function removeElements() {
-    //   if (
-    //     gameBoard.querySelector(".targeting-box") &&
-    //     gameBoard.querySelector(".character-choices")
-    //   ) {
-    //     gameBoard.removeChild(targetBox);
-    //     gameBoard.removeChild(characterChoicesDropdown);
-    //   }
-    // }
-
-    // gameBoard.addEventListener("mouseleave", () => {
-    //   removeElements();
-    // });
-
-    img.addEventListener("click", (e) => {
-      targetBox.style.left = `${e.offsetX - 50}px`;
-      targetBox.style.top = `${e.offsetY - 50}px`;
-
-      characterChoicesDropdown.style.left = `${e.offsetX + 50}px`;
-      characterChoicesDropdown.style.top = `${e.offsetY + 50}px`;
-      if (
-        !gameBoard.querySelector(".targeting-box") &&
-        !gameBoard.querySelector(".character-choices")
-      ) {
-        gameBoard.appendChild(targetBox);
-        gameBoard.appendChild(characterChoicesDropdown);
-      }
-    });
-  });
-
+  const [userId, setUserId] = useState(
+    JSON.parse(localStorage.getItem("userId"))
+  );
   return (
-    <div className="gameBoard flex justify-center">
-      <div className="gameboard">
-        <img id="gameplay-img" src={gameplayImage} alt="" />
-      </div>
-    </div>
+    <>
+      <AuthContext value={{ userId, setUserId }}>
+        <RouterProvider router={router}></RouterProvider>
+      </AuthContext>
+    </>
   );
 }
 
