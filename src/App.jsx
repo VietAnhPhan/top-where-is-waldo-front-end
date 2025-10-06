@@ -5,12 +5,10 @@ import { AuthContext } from "./Context";
 import { useState } from "react";
 
 function App() {
-  const [userId, setUserId] = useState(
-    JSON.parse(localStorage.getItem("userId"))
-  );
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
   return (
     <>
-      <AuthContext value={{ userId, setUserId }}>
+      <AuthContext value={{ user, setUser }}>
         <RouterProvider router={router}></RouterProvider>
       </AuthContext>
     </>

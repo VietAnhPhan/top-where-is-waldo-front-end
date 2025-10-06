@@ -8,7 +8,7 @@ function Home(props) {
   const auth = useContext(AuthContext);
 
   async function handleStartgame() {
-    if (!auth.userId) {
+    if (!auth.user) {
       const userRespone = await fetch("http://localhost:3000/users", {
         method: "POST",
         headers: {
@@ -49,15 +49,15 @@ function Home(props) {
           gameplayId: gameplay.id,
           startTime: getFullDate(),
         };
-        localStorage.setItem("userId", JSON.stringify(userStorage));
-        auth.setUserId(user.id);
+        localStorage.setItem("user", JSON.stringify(userStorage));
+        auth.setUser(user.id);
         navigate("/gameboard");
       } else {
         throw new Error("Can not start the game");
       }
     }
 
-    if (auth.userId) {
+    if (auth.user) {
       navigate("/gameboard");
     }
   }
