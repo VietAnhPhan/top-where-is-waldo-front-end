@@ -3,9 +3,9 @@ import { AuthContext } from "../../Context";
 import MarkerList from "./MarkerList";
 
 const CharacterChoicesDropdown = ({ posX, posY }) => {
+  const auth = useContext(AuthContext);
   const [characters, setCharacters] = useState([]);
   const [markers, setMarkers] = useState([]);
-  const auth = useContext(AuthContext);
 
   async function handleSelect(characterId) {
     const response = await fetch("http://localhost:3000/moves", {
