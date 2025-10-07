@@ -14,7 +14,7 @@ const Gameboard = () => {
     setCoord({ x, y });
     setHasStarted(true);
   }
-  
+
   useEffect(() => {
     async function startFetching() {}
 
