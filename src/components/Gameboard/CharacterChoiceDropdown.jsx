@@ -1,8 +1,10 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context";
+import MarkerList from "./MarkerList";
 
 const CharacterChoicesDropdown = ({ posX, posY }) => {
   const [characters, setCharacters] = useState([]);
+  const [markers, setMarkers] = useState([]);
   const auth = useContext(AuthContext);
 
   async function handleSelect(characterId) {
@@ -19,8 +21,10 @@ const CharacterChoicesDropdown = ({ posX, posY }) => {
       },
     });
 
-    // if (response.ok) {
-    // }
+    if (response.ok) {
+      const marker = await response.json();
+      setMarkers([...markers, marker]);
+    }
   }
 
   useEffect(() => {
@@ -61,6 +65,10 @@ const CharacterChoicesDropdown = ({ posX, posY }) => {
           ))}
         </ul>
       )}
+
+      {markers.map((marker) => (
+        <MarkerList key={marker.id} marker={marker}></MarkerList>
+      ))}
     </>
   );
 };
