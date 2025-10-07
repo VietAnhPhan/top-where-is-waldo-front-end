@@ -1,66 +1,44 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import gameboardImage from "../../assets/characters/ap6qmdr.jpg";
+import TargetBox from "./Targetbox";
+import CharacterChoicesDropdown from "./CharacterChoiceDropdown";
 
 const Gameboard = () => {
+  const [coord, setCoord] = useState({ x: 0, y: 0 });
+  const [hasStarted, setHasStarted] = useState(false);
+
+  function handleClick(e) {
+    const nativeEvent = e.nativeEvent;
+    const x = nativeEvent.offsetX;
+    const y = nativeEvent.offsetY;
+    setCoord({ x, y });
+    setHasStarted(true);
+  }
+  
   useEffect(() => {
-    const img = document.getElementById("gameboardImage");
-    const gameBoard = document.querySelector(".gameboard");
+    async function startFetching() {}
 
-    const targetBox = document.createElement("div");
-    targetBox.classList.add("targeting-box");
-
-    const characterChoicesDropdown = document.createElement("ul");
-    characterChoicesDropdown.classList.add("character-choices");
-
-    const characterChoices = [
-      "Captain Calamity Carl",
-      "Penelope The Parasol Plume",
-      "Buster The Brute Barnett",
-      "Sailor Sarah Sunbeam",
-      "Jasper The Juggler Jenkins",
-    ];
-
-    characterChoices.forEach((characterChoice) => {
-      const characterChoiceLi = document.createElement("li");
-      characterChoiceLi.textContent = characterChoice;
-      characterChoicesDropdown.appendChild(characterChoiceLi);
-    });
-
-    function removeElements() {
-      if (
-        gameBoard.querySelector(".targeting-box") &&
-        gameBoard.querySelector(".character-choices")
-      ) {
-        gameBoard.removeChild(targetBox);
-        gameBoard.removeChild(characterChoicesDropdown);
-      }
-    }
-
-    gameBoard.addEventListener("mouseleave", () => {
-      removeElements();
-    });
-
-    img.addEventListener("click", (e) => {
-      targetBox.style.left = `${e.offsetX - 50}px`;
-      targetBox.style.top = `${e.offsetY - 50}px`;
-
-      characterChoicesDropdown.style.left = `${e.offsetX + 50}px`;
-      characterChoicesDropdown.style.top = `${e.offsetY + 50}px`;
-      console.log(e.offsetX, e.offsetY);
-      if (
-        !gameBoard.querySelector(".targeting-box") &&
-        !gameBoard.querySelector(".character-choices")
-      ) {
-        gameBoard.appendChild(targetBox);
-        gameBoard.appendChild(characterChoicesDropdown);
-      }
-    });
+    startFetching();
   });
 
   return (
     <div className="gameBoard flex justify-center">
       <div className="gameboard">
-        <img id="gameboardImage" src={gameboardImage} alt="" />
+        <img
+          id="gameboardImage"
+          src={gameboardImage}
+          alt=""
+          onClick={handleClick}
+        />
+        {hasStarted && (
+          <>
+            <TargetBox posX={coord.x} posY={coord.y}></TargetBox>
+            <CharacterChoicesDropdown
+              posX={coord.x}
+              posY={coord.y}
+            ></CharacterChoicesDropdown>
+          </>
+        )}
       </div>
     </div>
   );
