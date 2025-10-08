@@ -4,10 +4,12 @@ import TargetBox from "./Targetbox";
 import CharacterChoicesDropdown from "./CharacterChoiceDropdown";
 import MarkerList from "./MarkerList";
 import { AuthContext } from "../../Context";
+import { useLoaderData } from "react-router";
 
 const Gameboard = () => {
   const auth = useContext(AuthContext);
   console.log(auth);
+  const markers = useLoaderData();
   const [coord, setCoord] = useState({ x: 0, y: 0 });
   const [hasStarted, setHasStarted] = useState(false);
 
@@ -44,9 +46,10 @@ const Gameboard = () => {
           </>
         )}
 
-        {auth.user.markers.map((marker) => (
-          <MarkerList key={marker.id} marker={marker}></MarkerList>
-        ))}
+        {markers &&
+          markers.map((marker) => (
+            <MarkerList key={marker.id} marker={marker}></MarkerList>
+          ))}
       </div>
     </div>
   );
