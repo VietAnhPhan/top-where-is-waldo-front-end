@@ -1,9 +1,13 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import gameboardImage from "../../assets/characters/ap6qmdr.jpg";
 import TargetBox from "./Targetbox";
 import CharacterChoicesDropdown from "./CharacterChoiceDropdown";
+import MarkerList from "./MarkerList";
+import { AuthContext } from "../../Context";
 
 const Gameboard = () => {
+  const auth = useContext(AuthContext);
+  console.log(auth);
   const [coord, setCoord] = useState({ x: 0, y: 0 });
   const [hasStarted, setHasStarted] = useState(false);
 
@@ -39,6 +43,10 @@ const Gameboard = () => {
             ></CharacterChoicesDropdown>
           </>
         )}
+
+        {auth.user.markers.map((marker) => (
+          <MarkerList key={marker.id} marker={marker}></MarkerList>
+        ))}
       </div>
     </div>
   );

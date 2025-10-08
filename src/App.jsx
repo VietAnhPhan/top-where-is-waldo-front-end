@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 function App() {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
- 
+
   useEffect(() => {
     if (!user.markers) {
       async function fetchMarkers() {
