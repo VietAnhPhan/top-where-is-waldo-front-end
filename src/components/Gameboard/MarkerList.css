@@ -6,9 +6,11 @@
 }
 
 .marker-wrong {
-  border-color: var(--color-red-700);
+  background-color: var(--color-red-700);
+  border-color: var(--color-red-950);
 }
 
 .marker-right {
-  border-color: var(--color-green-400);
+  background-color: var(--color-green-400);
+  border-color: var(--color-green-950);
 }

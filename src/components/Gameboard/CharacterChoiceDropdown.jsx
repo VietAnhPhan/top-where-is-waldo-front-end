@@ -15,6 +15,7 @@ const CharacterChoicesDropdown = ({ posX, posY }) => {
         position_y: posY,
         characterId: characterId,
         gameplayId: Number(auth.user.gameplayId),
+        range: 100,
       }),
       headers: {
         "Content-type": "application/json",
@@ -23,6 +24,9 @@ const CharacterChoicesDropdown = ({ posX, posY }) => {
 
     if (response.ok) {
       const marker = await response.json();
+      if (!marker) {
+        return;
+      }
       setMarkers([...markers, marker]);
     }
   }
