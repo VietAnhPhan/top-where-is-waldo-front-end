@@ -1,58 +1,75 @@
 import "./header.css";
-import { redirect } from "react-router";
-import { useContext } from "react";
+
+import { useContext, useRef } from "react";
 import { AuthContext } from "../Context";
+import RestartPopup from "../components/Popup/RestartPopup";
 
 export const Header = () => {
-  const authContext = useContext(AuthContext);
+  const auth = useContext(AuthContext);
+  const dialogRef = useRef();
 
-  function logout() {
-    authContext.setToken("");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("userId");
-    redirect("/");
+  async function handleRestart() {
+    const gameplayResponse = await fetch("http://localhost:3000/gameplays", {
+      method: "POST",
+      body: JSON.stringify({
+        userId: auth.user.userId,
+      }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    if (gameplayResponse.ok) {
+      const gameplay = await gameplayResponse.json();
+
+      const gamerecordResponse = await fetch(
+        "http://localhost:3000/gamerecords",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            gameplayId: gameplay.id,
+          }),
+          headers: {
+            "Content-type": "application/json",
+          },
+        }
+      );
+
+      if (gamerecordResponse.ok) {
+        const user = JSON.parse(localStorage.getItem("user"));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({
+            ...user,
+            gameplayId: gameplay.id,
+            isFinished: false,
+          })
+        );
+
+        auth.setUser({ ...user, gameplayId: gameplay.id, isFinished: false });
+      }
+    }
   }
 
+  function handleOpenPopup() {
+    dialogRef.current.showModal();
+  }
   return (
-    <header>
-      <ul className="flex justify-center gap-20">
-        <li>
-          <a href="/">Home</a>
-        </li>
-        {authContext.token ? (
-          ""
-        ) : (
-          <li>
-            <a href="/login">Login</a>
+    <>
+      <header className="mb-8">
+        <ul className="flex justify-center gap-20">
+          <li
+            className="hover:cursor-pointer bg-white px-4 py-2 rounded text-sky-800 font-medium"
+            onClick={handleOpenPopup}
+          >
+            Restart
           </li>
-        )}
-
-        {authContext.token ? (
-          ""
-        ) : (
-          <li>
-            <a href="/signup">Sign up</a>
-          </li>
-        )}
-
-        {authContext.token ? (
-          <>
-            <li>
-              <a href="/your-posts">Your posts</a>
-            </li>
-            <li>
-              <a href="/new-post">New post</a>
-            </li>
-            <li>
-              <button type="button" className="p-0" onClick={() => logout()}>
-                Log out
-              </button>
-            </li>
-          </>
-        ) : (
-          ""
-        )}
-      </ul>
-    </header>
+        </ul>
+      </header>
+      <RestartPopup
+        dialogRef={dialogRef}
+        onRestart={handleRestart}
+      ></RestartPopup>
+    </>
   );
 };
