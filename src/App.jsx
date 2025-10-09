@@ -2,11 +2,12 @@ import "./App.css";
 import { RouterProvider } from "react-router";
 import router from "./routes";
 import { AuthContext } from "./Context";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 function App() {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
-
+  const auth = useContext(AuthContext);
+  const [user, setUser] = useState(auth);
+  // console.log(user);
   return (
     <>
       <AuthContext value={{ user, setUser }}>
