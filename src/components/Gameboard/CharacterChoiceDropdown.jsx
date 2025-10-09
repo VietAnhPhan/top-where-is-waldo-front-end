@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../Context";
 import MarkerList from "./MarkerList";
 
-const CharacterChoicesDropdown = ({ posX, posY }) => {
+const CharacterChoicesDropdown = ({ posX, posY, finishedRef }) => {
   const auth = useContext(AuthContext);
   const [characters, setCharacters] = useState([]);
   const [markers, setMarkers] = useState([]);
@@ -24,7 +24,8 @@ const CharacterChoicesDropdown = ({ posX, posY }) => {
 
     if (response.ok) {
       const marker = await response.json();
-      if (!marker) {
+      if (!marker.isFinished) {
+        finishedRef.current = true;
         return;
       }
       setMarkers([...markers, marker]);
