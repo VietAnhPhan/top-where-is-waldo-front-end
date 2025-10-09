@@ -9,7 +9,7 @@ import EnterNamePopup from "../Popup/EnterNamePopup";
 
 const Gameboard = () => {
   const auth = useContext(AuthContext);
-  console.log(auth);
+
   const markers = useLoaderData();
   const [coord, setCoord] = useState({ x: 0, y: 0 });
   const [hasStarted, setHasStarted] = useState(false);
@@ -34,9 +34,12 @@ const Gameboard = () => {
   }
 
   useEffect(() => {
-    async function startFetching() {}
+    // async function startFetching() {}
 
-    startFetching();
+    // startFetching();
+    if (auth.user.isFinished) {
+      handleOpen();
+    }
   });
 
   return (
@@ -48,7 +51,7 @@ const Gameboard = () => {
           alt=""
           onClick={handleClick}
         />
-        {hasStarted && (
+        {hasStarted && !auth.user.isFinished && (
           <>
             <TargetBox posX={coord.x} posY={coord.y}></TargetBox>
             <CharacterChoicesDropdown
@@ -59,10 +62,7 @@ const Gameboard = () => {
           </>
         )}
 
-        {markers &&
-          markers.map((marker) => (
-            <MarkerList key={marker.id} marker={marker}></MarkerList>
-          ))}
+        {markers && <MarkerList markers={markers}></MarkerList>}
         <EnterNamePopup dialogRef={dialogRef}></EnterNamePopup>
       </div>
     </div>
