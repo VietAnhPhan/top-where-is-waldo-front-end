@@ -8,7 +8,7 @@ const CharacterChoicesDropdown = ({ posX, posY, finishedRef }) => {
   const [markers, setMarkers] = useState([]);
 
   async function handleSelect(characterId) {
-    const response = await fetch("http://localhost:3000/moves", {
+    const moveResponse = await fetch("http://localhost:3000/moves", {
       method: "POST",
       body: JSON.stringify({
         position_x: posX,
@@ -22,13 +22,34 @@ const CharacterChoicesDropdown = ({ posX, posY, finishedRef }) => {
       },
     });
 
-    if (response.ok) {
-      const marker = await response.json();
-      if (!marker.isFinished) {
+    if (moveResponse.ok) {
+      const marker = await moveResponse.json();
+      // if (!marker.isFinished) {
+      //   finishedRef.current = true;
+      //   return;
+      // }
+      setMarkers([...markers, marker]);
+    }
+
+    const gampelayResponse = await fetch(
+      `http://localhost:3000/gameplays/${auth.user.gameplayId}`,
+      {
+        method: "GET",
+      }
+    );
+
+    if (gampelayResponse.ok) {
+      const gameplay = await gampelayResponse.json();
+
+      if (gameplay.isFinished) {
         finishedRef.current = true;
+        const user = JSON.parse(localStorage.getItem("user"));
+        localStorage.setItem(
+          "user",
+          JSON.stringify({ ...user, isFinished: true })
+        );
         return;
       }
-      setMarkers([...markers, marker]);
     }
   }
 
@@ -71,9 +92,7 @@ const CharacterChoicesDropdown = ({ posX, posY, finishedRef }) => {
         </ul>
       )}
 
-      {markers.map((marker) => (
-        <MarkerList key={marker.id} marker={marker}></MarkerList>
-      ))}
+      <MarkerList markers={markers}></MarkerList>
     </>
   );
 };
