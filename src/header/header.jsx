@@ -64,6 +64,9 @@ export const Header = () => {
           >
             Restart
           </li>
+          <li className="bg-white px-4 py-2 rounded text-sky-800 font-medium">
+            <a href="/leader-board">Leader board</a>
+          </li>
         </ul>
       </header>
       <RestartPopup
