@@ -1,9 +1,9 @@
 import "./App.css";
-import { RouterProvider } from "react-router";
-import router from "./routes";
+
 import { AuthContext } from "./Context";
 import { useContext, useState } from "react";
 import { Header } from "./header/header";
+import { Outlet } from "react-router";
 
 function App() {
   const auth = useContext(AuthContext);
@@ -13,7 +13,7 @@ function App() {
     <>
       <AuthContext value={{ user, setUser }}>
         <Header></Header>
-        <RouterProvider router={router}></RouterProvider>
+        <Outlet></Outlet>
       </AuthContext>
     </>
   );

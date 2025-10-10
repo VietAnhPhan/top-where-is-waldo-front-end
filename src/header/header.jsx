@@ -3,6 +3,7 @@ import "./header.css";
 import { useContext, useRef } from "react";
 import { AuthContext } from "../Context";
 import RestartPopup from "../components/Popup/RestartPopup";
+import { Link } from "react-router";
 
 export const Header = () => {
   const auth = useContext(AuthContext);
@@ -57,15 +58,21 @@ export const Header = () => {
   return (
     <>
       <header className="mb-8">
-        <ul className="flex justify-center gap-20">
+        <ul className="flex justify-center gap-20 items-center">
           <li
             className="hover:cursor-pointer bg-white px-4 py-2 rounded text-sky-800 font-medium"
             onClick={handleOpenPopup}
           >
             Restart
           </li>
+          <li className="px-4 py-2 rounded text-white text-5xl">
+            <Link to="/gameboard">Where's Waldo</Link>
+          </li>
           <li className="bg-white px-4 py-2 rounded text-sky-800 font-medium">
-            <a href="/leader-board">Leader board</a>
+            <Link to="/leader-board">Leader board</Link>
+          </li>
+          <li className="bg-white px-4 py-2 rounded text-sky-800 font-medium">
+            <Link to="/gameboard">Back to game</Link>
           </li>
         </ul>
       </header>
