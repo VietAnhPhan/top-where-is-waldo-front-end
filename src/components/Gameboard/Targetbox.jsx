@@ -1,6 +1,11 @@
 const TargetBox = ({ posX, posY }) => {
   console.log(posX, posY);
-  return <div className="targeting-box" style={{ left: posX-50, top: posY-50 }}></div>;
+  return (
+    <div
+      className="targeting-box translate-x-[-50%] translate-y-[-50%]"
+      style={{ left: posX, top: posY }}
+    ></div>
+  );
 };
 
 export default TargetBox;

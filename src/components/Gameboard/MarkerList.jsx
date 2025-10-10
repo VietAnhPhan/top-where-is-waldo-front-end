@@ -12,10 +12,10 @@ const MarkerList = ({ markers }) => {
               return (
                 <div
                   key={marker.id}
-                  className="marker marker-right"
+                  className="marker marker-right translate-x-[-50%] translate-y-[-50%]"
                   style={{
-                    left: marker.position_x - 25,
-                    top: marker.position_y - 25,
+                    left: marker.position_x,
+                    top: marker.position_y,
                   }}
                 ></div>
               );
@@ -23,10 +23,10 @@ const MarkerList = ({ markers }) => {
               return (
                 <div
                   key={marker.id}
-                  className="marker marker-wrong"
+                  className="marker marker-wrong translate-x-[-50%] translate-y-[-50%]"
                   style={{
-                    left: marker.position_x - 25,
-                    top: marker.position_y - 25,
+                    left: marker.position_x,
+                    top: marker.position_y,
                   }}
                 ></div>
               );
