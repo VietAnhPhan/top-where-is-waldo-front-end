@@ -6,6 +6,7 @@ import MarkerList from "./MarkerList";
 import { AuthContext } from "../../Context";
 import { useLoaderData } from "react-router";
 import EnterNamePopup from "../Popup/EnterNamePopup";
+import Image from "./Image";
 
 const Gameboard = () => {
   const auth = useContext(AuthContext);
@@ -15,6 +16,12 @@ const Gameboard = () => {
   const [hasStarted, setHasStarted] = useState(false);
   const dialogRef = useRef(null);
   const finishedRef = useRef(false);
+
+  useEffect(() => {
+    if (auth.user.isFinished) {
+      handleOpen();
+    }
+  });
 
   function handleClick(e) {
     if (!finishedRef.current) {
@@ -33,24 +40,10 @@ const Gameboard = () => {
     dialogRef.current.showModal();
   }
 
-  useEffect(() => {
-    // async function startFetching() {}
-
-    // startFetching();
-    if (auth.user.isFinished) {
-      handleOpen();
-    }
-  });
-
   return (
     <div className="gameBoard flex justify-center">
       <div className="gameboard">
-        <img
-          id="gameboardImage"
-          src={gameboardImage}
-          alt=""
-          onClick={handleClick}
-        />
+        <Image src={gameboardImage} onClick={handleClick}></Image>
         {hasStarted && !auth.user.isFinished && (
           <>
             <TargetBox posX={coord.x} posY={coord.y}></TargetBox>
