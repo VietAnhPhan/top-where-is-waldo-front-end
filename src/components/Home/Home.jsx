@@ -62,7 +62,7 @@ function Home(props) {
     }
   }
   return (
-    <div className="flex justify-center items-center h-full">
+    <div>
       <title>{`Homepage | ${props.sitename}`}</title>
       <button className="button-solid" onClick={handleStartgame}>
         Play now

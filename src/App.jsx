@@ -13,7 +13,9 @@ function App() {
     <>
       <AuthContext value={{ user, setUser }}>
         <Header></Header>
-        <Outlet></Outlet>
+        <div className="flex flex-col justify-center items-center h-full">
+          <Outlet></Outlet>
+        </div>
       </AuthContext>
     </>
   );
